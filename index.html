@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MANAMI HOTEL - PRISHTINË</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; background: #000; color: white; margin: 0; overflow-x: hidden; }
+
+        /* --- LOADER --- */
+        #loader { position: fixed; inset: 0; background: #000; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10000; }
+        .loading-logo { width: 300px; filter: drop-shadow(0 0 15px #d4af37); animation: staticGlow 2s infinite alternate ease-in-out; }
+        @keyframes staticGlow { 0% { filter: drop-shadow(0 0 10px #ffffff); } 100% { filter: drop-shadow(0 0 25px #d4af37); } }
+
+        /* --- SHIMMER ANIMATION --- */
+        .shimmer-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 10vw, 5rem);
+            font-weight: 900;
+            background: linear-gradient(90deg, #1a1a1a, #d4af37, #ffffff, #d4af37, #1a1a1a);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer-animation 3s linear infinite;
+            text-align: center;
+        }
+        @keyframes shimmer-animation { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+
+        /* --- RREGULLIMI PËR TELEFON (Mobile Fix) --- */
+        @media (max-width: 640px) {
+            .mobile-header-left {
+                padding-left: 10px;
+                gap: 8px !important;
+            }
+            .lang-container {
+                gap: 4px !important;
+            }
+            /* Social Icons Mobile Adjustments */
+            .social-icons-container {
+                gap: 25px !important; /* Hapësira më e vogël në telefon */
+            }
+            .social-icon {
+                font-size: 1.8rem !important; /* Ikonat pak më të vogla në telefon */
+            }
+        }
+
+        /* --- BUTTONS --- */
+        .btn-laser {
+            position: relative; background: #d4af37; color: #000; padding: 16px 45px; border-radius: 50px;
+            font-weight: 900; text-transform: uppercase; overflow: hidden; transition: 0.3s; border: none; cursor: pointer;
+        }
+        .btn-laser::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent);
+            transform: skewX(-25deg); animation: laser-cut 3s infinite;
+        }
+        @keyframes laser-cut { 0% { left: -100%; } 20% { left: 150%; } 100% { left: 150%; } }
+
+        #home-section {
+            height: 100vh; width: 100%; display: flex; flex-direction: column;
+            justify-content: space-between; align-items: center; position: relative;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.5), #000), 
+                        url('https://i.ibb.co/rKpHmNqh/345590510.jpg') no-repeat center center / cover;
+            padding: 20px 0;
+        }
+
+        /* --- SOCIAL MEDIA GLOW STYLES --- */
+        .social-icons-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px; /* Hapësira ndërmjet ikonave */
+            margin-top: 25px;
+        }
+
+        .social-icon {
+            font-size: 2.5rem;
+            color: #d4af37; /* Ngjyra e artë bazë */
+            transition: all 0.4s ease;
+            text-decoration: none;
+            position: relative;
+        }
+
+        /* Efektet e Glow */
+        .social-icon:hover {
+            color: #fff;
+            text-shadow: 
+                0 0 10px #d4af37,
+                0 0 20px #d4af37,
+                0 0 40px #d4af37,
+                0 0 80px #ffcc00;
+            transform: translateY(-5px) scale(1.1);
+        }
+
+        /* Animacion i butë për tërheqje në load */
+        @keyframes floatIcons {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .social-icons-container {
+            animation: floatIcons 1.5s ease-out forwards;
+            animation-delay: 1.8s; /* Fillon pasi të mbarojë ngarkimi */
+            opacity: 0; /* Fshehur fillimisht derisa të nis animacioni */
+        }
+
+
+        /* --- PARTNER CARDS --- */
+        .partner-card {
+            border-radius: 40px; padding: 45px 20px; transition: 0.4s; text-align: center;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            min-height: 280px; text-decoration: none;
+        }
+        .partner-agoda { background: #f0f7ff; color: #1a4fa3; }
+        .partner-booking { background: #1a1a1a; color: #d4af37; border: 2px solid #d4af37; }
+        .partner-priceline { background: #f5f5f5; color: #000; }
+        
+        .partner-name { font-family: 'Playfair Display', serif; font-size: 3rem; font-style: italic; margin-bottom: 2px; }
+        .partner-sub { font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; opacity: 0.8; margin-bottom: 25px; }
+        .partner-line { width: 60%; height: 1px; margin-bottom: 25px; opacity: 0.2; }
+        .line-agoda { background: #1a4fa3; }
+        .line-booking { background: #d4af37; }
+        .line-price { background: #000; }
+        .partner-link { font-weight: 900; font-size: 13px; letter-spacing: 2px; display: flex; align-items: center; gap: 12px; }
+
+        .amenity-item { display: flex; align-items: center; gap: 10px; font-size: 0.8rem; color: #eee; margin-bottom: 8px; }
+        .amenity-icon { color: #d4af37; width: 18px; text-align: center; font-size: 1rem; }
+        
+        #gallery-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 20000; overflow-y: auto; }
+        .lang-btn { cursor: pointer; opacity: 0.6; transition: 0.3s; width: 24px; }
+        .lang-btn.active { opacity: 1; transform: scale(1.1); }
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <img src="https://i.ibb.co/4g50Tzqn/IMG-5392.png" class="loading-logo">
+    </div>
+
+    <section id="home-section">
+        <div class="w-full flex justify-between items-center px-4 md:px-12 py-4 z-10">
+            <div class="flex items-center gap-4 mobile-header-left">
+                <div class="flex gap-2 lang-container">
+                    <img src="https://flagcdn.com/w40/al.png" class="lang-btn active" onclick="changeLang('sq', this)" alt="SQ">
+                    <img src="https://flagcdn.com/w40/gb.png" class="lang-btn" onclick="changeLang('en', this)" alt="EN">
+                    <img src="https://flagcdn.com/w40/de.png" class="lang-btn" onclick="changeLang('de', this)" alt="DE">
+                </div>
+                <a href="https://manami-rentacar.netlify.app/" class="bg-[#d4af37] text-black px-3 py-1 rounded text-[10px] font-black uppercase whitespace-nowrap">Renta Car</a>
+            </div>
+            
+            <img src="https://i.ibb.co/4g50Tzqn/IMG-5392.png" class="w-28 md:w-48">
+            
+            <div class="flex gap-4 text-xl md:text-2xl text-[#d4af37]">
+                <a href="tel:+38348785785"><i class="fas fa-phone-alt"></i></a>
+                <a href="https://wa.me/38348771717" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+
+        <div class="text-center z-10 px-4">
+            <h1 class="shimmer-text">MANAMI HOTEL</h1>
+            <p id="hero-sub" class="text-gray-400 mt-2 tracking-[5px] uppercase text-xs">Luks & Komoditet në Prishtinë</p>
+        </div>
+
+        <div class="flex flex-col items-center z-10 pb-8">
+            <button onclick="openDetails()" id="btn-explore" class="btn-laser">EKSPLORO HOTELIN</button>
+            
+            <!-- SOCIAL MEDIA ICONS SECTION -->
+            <div class="social-icons-container">
+                <!-- Facebook Link -->
+                <a href="https://www.facebook.com/share/17GhES1Nqk/?mibextid=wwXIfr" target="_blank" class="social-icon" aria-label="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                
+                <!-- Instagram Link -->
+                <a href="https://www.instagram.com/manamihotel?igsh=MW5jeDJvYmxvdTFxag==" target="_blank" class="social-icon" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                
+                <!-- TikTok Link -->
+                <a href="https://www.tiktok.com/@manamihotel?_r=1&_t=ZS-93nIPtpHggr" target="_blank" class="social-icon" aria-label="TikTok">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="details-section" class="hidden bg-black py-20 px-5 min-h-screen">
+        <button onclick="closeDetails()" id="btn-back" class="fixed top-5 left-5 z-[100] bg-black/80 border border-[#d4af37] text-[#d4af37] px-5 py-2 rounded-full text-[10px] font-bold">
+            <i class="fas fa-arrow-left mr-2"></i> BALLINA
+        </button>
+
+        <div class="container mx-auto max-w-6xl">
+            <div class="text-center mb-16">
+                <p id="txt-partners" class="text-[#d4af37] text-xs font-bold tracking-[3px] uppercase mb-2">Partnerët tanë</p>
+                <h2 id="txt-reserve" class="text-4xl font-serif italic mb-12">Rezervo Tani</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <a href="https://www.agoda.com/hotel-manami/hotel/all/pristina-xk.html?cid=1918349" target="_blank" class="partner-card partner-agoda">
+                        <span class="partner-name">Agoda</span>
+                        <span class="partner-sub">Easy Booking</span>
+                        <div class="partner-line line-agoda"></div>
+                        <span class="partner-link btn-book-text">REZERVO TANI <i class="fas fa-chevron-right text-[10px]"></i></span>
+                    </a>
+                    <a href="https://www.booking.com/hotel/xk/manami-prishtine.en-gb.html?aid=311984" target="_blank" class="partner-card partner-booking">
+                        <span class="partner-name">Booking.com</span>
+                        <span class="partner-sub">Official Partner</span>
+                        <div class="partner-line line-booking"></div>
+                        <span class="partner-link btn-book-text">REZERVO TANI <i class="fas fa-chevron-right text-[10px]"></i></span>
+                    </a>
+                    <a href="https://www.zenhotels.com/hotel/en-us/kosovo/serbia_pristina_neighborhood/mid10103479/hotel_manami/" target="_blank" class="partner-card partner-priceline">
+                        <span class="partner-name">Priceline</span>
+                        <span class="partner-sub">Exclusive Deals</span>
+                        <div class="partner-line line-price"></div>
+                        <span class="partner-link btn-book-text">REZERVO TANI <i class="fas fa-chevron-right text-[10px]"></i></span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
+                <div class="bg-[#0a0a0a] rounded-3xl overflow-hidden border border-zinc-900">
+                    <img src="https://i.ibb.co/nMDtZ2K2/331894195.jpg" class="w-full h-72 object-cover">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-6 text-[#d4af37]">Standard King Room</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="amenity-item"><i class="fas fa-wifi amenity-icon"></i> Free WiFi</div>
+                            <div class="amenity-item"><i class="fas fa-ban amenity-icon"></i> Non-smoking rooms</div>
+                            <div class="amenity-item"><i class="fas fa-users amenity-icon"></i> Family rooms</div>
+                            <div class="amenity-item"><i class="fas fa-clock amenity-icon"></i> 24-hour front desk</div>
+                            <div class="amenity-item"><i class="fas fa-bell amenity-icon"></i> Room service</div>
+                            <div class="amenity-item"><i class="fas fa-coffee amenity-icon"></i> Tea/coffee maker</div>
+                            <div class="amenity-item"><i class="fas fa-glass-martini-alt amenity-icon"></i> Bar</div>
+                            <div class="amenity-item"><i class="fas fa-utensils amenity-icon"></i> Very good breakfast</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-[#0a0a0a] rounded-3xl overflow-hidden border border-zinc-900">
+                    <img src="https://i.ibb.co/n5FYbkp/331894656.jpg" class="w-full h-72 object-cover">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-6 text-[#d4af37]">Deluxe Double Room</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="amenity-item"><i class="fas fa-wifi amenity-icon"></i> Free WiFi</div>
+                            <div class="amenity-item"><i class="fas fa-ban amenity-icon"></i> Non-smoking rooms</div>
+                            <div class="amenity-item"><i class="fas fa-users amenity-icon"></i> Family rooms</div>
+                            <div class="amenity-item"><i class="fas fa-clock amenity-icon"></i> 24-hour front desk</div>
+                            <div class="amenity-item"><i class="fas fa-bell amenity-icon"></i> Room service</div>
+                            <div class="amenity-item"><i class="fas fa-coffee amenity-icon"></i> Tea/coffee maker</div>
+                            <div class="amenity-item"><i class="fas fa-glass-martini-alt amenity-icon"></i> Bar</div>
+                            <div class="amenity-item"><i class="fas fa-utensils amenity-icon"></i> Very good breakfast</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col items-center gap-4">
+                <button onclick="openGallery('hotel')" id="btn-gal-h" class="btn-laser w-full max-w-md">GALERIA E HOTELIT</button>
+                <button onclick="openGallery('dining')" id="btn-gal-d" class="btn-laser w-full max-w-md !bg-white !text-black">GALERIA DINING & RESTAURANT</button>
+            </div>
+        </div>
+    </section>
+
+    <div id="gallery-modal">
+        <div class="flex justify-between items-center p-6 bg-black border-b border-zinc-900 sticky top-0 z-50">
+            <button onclick="closeGallery()" id="btn-gal-close" class="text-xs border border-zinc-700 px-4 py-2 rounded-full uppercase">Mbyll</button>
+            <h2 id="gallery-title" class="text-[#d4af37] font-bold tracking-widest uppercase text-sm">GALERIA</h2>
+            <span></span>
+        </div>
+        <div id="grid-content" class="grid grid-cols-2 md:grid-cols-4 gap-2 p-2"></div>
+    </div>
+
+    <script>
+        const galleryImages = {
+            hotel: [
+                "https://i.ibb.co/w2Sqfd6/331894695.jpg", "https://i.ibb.co/RTfKMCjB/331894713.jpg", "https://i.ibb.co/fzRsrZPj/331895739.jpg",
+                "https://i.ibb.co/k2SrT8rh/331895817.jpg", "https://i.ibb.co/gbFBFkcF/331896002.jpg", "https://i.ibb.co/5Xqv6rXK/331896029.jpg",
+                "https://i.ibb.co/SDBVJMdS/331896032.jpg", "https://i.ibb.co/FkpY6Wb8/332118404.jpg", "https://i.ibb.co/Y4tXxbtR/334212742.jpg",
+                "https://i.ibb.co/Q7QX120c/334212777.jpg", "https://i.ibb.co/R40nhN4S/334212781.jpg", "https://i.ibb.co/LD3bBspz/334213521.jpg",
+                "https://i.ibb.co/Qvn42dXx/334213564.jpg", "https://i.ibb.co/fGXrx3jn/334213612.jpg", "https://i.ibb.co/ccYgxTHQ/334213627.jpg",
+                "https://i.ibb.co/G43887D9/334213645.jpg", "https://i.ibb.co/LDFXWRDK/334213688.jpg", "https://i.ibb.co/kgcTNfbq/334213735.jpg",
+                "https://i.ibb.co/prKG7zj8/334213778.jpg", "https://i.ibb.co/DPjKZ6tz/334213803.jpg", "https://i.ibb.co/rKpHmNqh/345590510.jpg",
+                "https://i.ibb.co/FqXn44P1/348398449.jpg", "https://i.ibb.co/35Q3HZD0/348398523.jpg", "https://i.ibb.co/SjCN78V/384247150.jpg",
+                "https://i.ibb.co/gLwGZt31/426519537.jpg", "https://i.ibb.co/nMDtZ2K2/331894195.jpg", "https://i.ibb.co/n5FYbkp/331894656.jpg"
+            ],
+            dining: [
+                "https://i.ibb.co/0RPGZ3Hj/384246310.jpg", "https://i.ibb.co/sp1wY7Hg/384240190.jpg", "https://i.ibb.co/xqCK4S6x/384241481.jpg",
+                "https://i.ibb.co/ZRbD9yss/384242592.jpg", "https://i.ibb.co/ccwPW6s1/384242694.jpg", "https://i.ibb.co/3yZGbL4j/384242983.jpg",
+                "https://i.ibb.co/DPV6Yq8H/384243149.jpg", "https://i.ibb.co/wNR3HWsQ/384243288.jpg", "https://i.ibb.co/rRFXbDZz/384243474.jpg",
+                "https://i.ibb.co/BV7g7jgY/384243756.jpg", "https://i.ibb.co/CstwGzQG/384243990.jpg", "https://i.ibb.co/S4K3Z0Td/384244021.jpg",
+                "https://i.ibb.co/xSnVLt5M/384244331.jpg", "https://i.ibb.co/zV9kvR3b/384244418.jpg", "https://i.ibb.co/G4DqZfzz/384244457.jpg",
+                "https://i.ibb.co/zhCj6cyV/384244685.jpg"
+            ]
+        };
+
+        window.onload = () => { setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 1500); };
+        function openDetails() { document.getElementById('home-section').style.display = 'none'; document.getElementById('details-section').classList.remove('hidden'); window.scrollTo(0,0); }
+        function closeDetails() { document.getElementById('details-section').classList.add('hidden'); document.getElementById('home-section').style.display = 'flex'; }
+        function openGallery(type) {
+            const grid = document.getElementById('grid-content');
+            const title = document.getElementById('gallery-title');
+            grid.innerHTML = "";
+            title.innerText = type === 'hotel' ? "GALERIA E HOTELIT" : "DINING & RESTAURANT";
+            galleryImages[type].forEach(src => { grid.innerHTML += `<img src="${src}" class="w-full aspect-square object-cover rounded hover:scale-[1.02] transition duration-300 cursor-pointer" onclick="window.open('${src}')">`; });
+            document.getElementById('gallery-modal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeGallery() { document.getElementById('gallery-modal').style.display = 'none'; document.body.style.overflow = 'auto'; }
+
+        function changeLang(lang, btn) {
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const trans = {
+                sq: { exp: "EKSPLORO HOTELIN", sub: "Luks & Komoditet në Prishtinë", back: "BALLINA", part: "Partnerët tanë", res: "Rezervo Tani", book: "REZERVO TANI", galh: "GALERIA E HOTELIT", gald: "GALERIA DINING & RESTAURANT", close: "MBYLL" },
+                en: { exp: "EXPLORE HOTEL", sub: "Luxury & Comfort in Pristina", back: "HOME", part: "Our Partners", res: "Book Now", book: "BOOK NOW", galh: "HOTEL GALLERY", gald: "DINING GALLERY", close: "CLOSE" },
+                de: { exp: "HOTEL ERKUNDEN", sub: "Luxus & Komfort in Pristina", back: "ZURÜCK", part: "Unsere Partner", res: "Jetzt Buchen", book: "JETZT BUCHEN", galh: "HOTEL GALERIE", gald: "RESTAURANT GALERIE", close: "SCHLIESSEN" }
+            };
+            const t = trans[lang];
+            document.getElementById('btn-explore').innerText = t.exp;
+            document.getElementById('hero-sub').innerText = t.sub;
+            document.getElementById('btn-back').innerHTML = `<i class="fas fa-arrow-left mr-2"></i> ${t.back}`;
+            document.getElementById('txt-partners').innerText = t.part;
+            document.getElementById('txt-reserve').innerText = t.res;
+            document.getElementById('btn-gal-h').innerText = t.galh;
+            document.getElementById('btn-gal-d').innerText = t.gald;
+            document.getElementById('btn-gal-close').innerText = t.close;
+            document.querySelectorAll('.btn-book-text').forEach(el => el.innerHTML = `${t.book} <i class="fas fa-chevron-right text-[10px]"></i>`);
+        }
+    </script>
+</body>
+</html>
